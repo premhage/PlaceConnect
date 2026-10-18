@@ -1,0 +1,23 @@
+{
+  "name": "placeconnect",
+  "version": "1.0.0",
+  "description": "PlaceConnect — Online Placement & Recruitment Portal (MERN Stack)",
+  "private": true,
+  "scripts": {
+    "install:all": "npm --prefix server install && npm --prefix client install",
+    "seed": "npm --prefix server run seed",
+    "create-admin": "npm --prefix server run create-admin",
+    "test:server": "npm --prefix server run test",
+    "server": "npm --prefix server run dev",
+    "client": "npm --prefix client run dev",
+    "build:client": "npm --prefix client run build"
+  },
+  "keywords": [
+    "mern",
+    "placement-portal",
+    "recruitment",
+    "vit-academic-project"
+  ],
+  "author": "",
+  "license": "ISC"
+}

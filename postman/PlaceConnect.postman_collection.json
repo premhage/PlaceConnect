@@ -1,0 +1,348 @@
+{
+  "info": {
+    "name": "PlaceConnect — Online Placement & Recruitment Portal API",
+    "_postman_id": "placeconnect-collection-v1",
+    "description": "Comprehensive REST API collection for PlaceConnect Portal (Third-Year B.Tech Computer Engineering Web Technology Project). Covers Authentication, Student Profiles, Job Drives, Applications, Interview Management, Admin Oversight, and Placement Reports.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        }
+      }
+    },
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Login Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.token) {",
+                  "  pm.environment.set('adminToken', json.token);",
+                  "  pm.environment.set('authToken', json.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@placeconnect.edu\",\n  \"password\": \"Admin@123456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login Student (Aarav)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.token) {",
+                  "  pm.environment.set('studentToken', json.token);",
+                  "  pm.environment.set('authToken', json.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"aarav.sharma@student.edu\",\n  \"password\": \"Password@123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login Recruiter (Microsoft)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.token) {",
+                  "  pm.environment.set('recruiterToken', json.token);",
+                  "  pm.environment.set('authToken', json.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"recruiter.msft@microsoft.com\",\n  \"password\": \"Password@123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Register New Student",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Priya Kulkarni\",\n  \"email\": \"priya.kulkarni@student.edu\",\n  \"password\": \"Password@123\",\n  \"PRN\": \"PRN2022099\",\n  \"phone\": \"9876543219\",\n  \"branch\": \"Computer Engineering\",\n  \"graduationYear\": 2026,\n  \"CGPA\": 9.1,\n  \"backlogs\": 0,\n  \"skills\": [\"React\", \"Node.js\", \"MongoDB\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register/student",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register", "student"]
+            }
+          }
+        },
+        {
+          "name": "Register New Recruiter",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sandeep Singhal\",\n  \"email\": \"recruitment@amazon.com\",\n  \"password\": \"Password@123\",\n  \"companyName\": \"Amazon Development Centre India\",\n  \"industry\": \"E-Commerce & Cloud\",\n  \"location\": \"Bengaluru / Hyderabad\",\n  \"description\": \"Global customer-centric technological leader.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register/recruiter",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register", "recruiter"]
+            }
+          }
+        },
+        {
+          "name": "Get Current Authenticated User (Me)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "me"]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "logout"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Jobs & Eligibility",
+      "item": [
+        {
+          "name": "Browse Published Jobs (Public/Student)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/jobs?page=1&limit=10&branch=Computer Engineering",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobs"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" },
+                { "key": "branch", "value": "Computer Engineering" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Check Eligibility for Job (Student)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/jobs/{{sampleJobId}}/eligibility",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobs", "{{sampleJobId}}", "eligibility"]
+            }
+          }
+        },
+        {
+          "name": "Create Job Posting (Recruiter)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{recruiterToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Cloud Support Associate\",\n  \"description\": \"Provide troubleshooting and architectural guidance on Microsoft Azure platforms.\",\n  \"location\": \"Bengaluru / Pune\",\n  \"jobType\": \"Full-Time\",\n  \"minimumCGPA\": 7.0,\n  \"maximumBacklogs\": 0,\n  \"eligibleBranches\": [\"Computer Engineering\", \"Information Technology\", \"Electronics & Telecommunication\"],\n  \"eligibleGraduationYears\": [2026],\n  \"salaryRange\": {\n    \"min\": 14,\n    \"max\": 18,\n    \"currency\": \"INR\",\n    \"period\": \"LPA\"\n  },\n  \"applicationDeadline\": \"2026-12-31T23:59:59.000Z\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/jobs",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobs"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Applications",
+      "item": [
+        {
+          "name": "Submit Job Application (Student)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jobId\": \"{{sampleJobId}}\",\n  \"coverLetter\": \"Excited to apply for this campus recruitment opening.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/applications",
+              "host": ["{{baseUrl}}"],
+              "path": ["applications"]
+            }
+          }
+        },
+        {
+          "name": "Get My Applications (Student)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/applications/my",
+              "host": ["{{baseUrl}}"],
+              "path": ["applications", "my"]
+            }
+          }
+        },
+        {
+          "name": "Update Application Status (Recruiter)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{recruiterToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Shortlisted\",\n  \"note\": \"Candidate cleared technical screening round.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/applications/{{sampleApplicationId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["applications", "{{sampleApplicationId}}", "status"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Placement Admin",
+      "item": [
+        {
+          "name": "Admin Dashboard Analytics",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/admin/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "dashboard"]
+            }
+          }
+        },
+        {
+          "name": "Get All Registered Students",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/admin/students?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "students"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Approve / Reject Company",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"approved\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/companies/{{sampleCompanyId}}/approval",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "companies", "{{sampleCompanyId}}", "approval"]
+            }
+          }
+        },
+        {
+          "name": "Placement Reports & Statistics",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/admin/reports/placements",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "reports", "placements"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
