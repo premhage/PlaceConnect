@@ -6,6 +6,11 @@ dotenv.config();
 let mongodInstance = null;
 
 export const connectDB = async () => {
+  // Return existing connection in serverless / repeated calls
+  if (mongoose.connection.readyState >= 1) {
+    return mongoose.connection;
+  }
+
   const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/placeconnect';
   const autoMemory = process.env.USE_IN_MEMORY_DB === 'true' || process.env.USE_IN_MEMORY_DB === 'auto';
 
@@ -17,6 +22,10 @@ export const connectDB = async () => {
     console.log(`[Database] Connected to MongoDB: ${conn.connection.host}/${conn.connection.name}`);
     return conn;
   } catch (error) {
+    if (process.env.VERCEL) {
+      console.error('[Database] On Vercel: Failed to connect to external MongoDB. Please set MONGODB_URI in Vercel settings.');
+      throw error;
+    }
     if (autoMemory) {
       console.warn(`[Database] Could not connect to external MongoDB at ${uri}.`);
       console.log('[Database] Initializing embedded MongoDB Memory Server for zero-config demo/dev mode...');

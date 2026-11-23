@@ -6,14 +6,28 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Ensure upload directory exists
-const uploadDir = path.resolve(__dirname, '../../uploads/resumes');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
+// Ensure upload directory exists (fallback to /tmp in serverless/Vercel environments)
+const uploadDir = process.env.VERCEL
+  ? path.resolve('/tmp', 'uploads/resumes')
+  : path.resolve(__dirname, '../../uploads/resumes');
+
+try {
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+} catch (err) {
+  console.warn('[Multer] Warning initializing upload directory:', err.message);
 }
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
+    try {
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+    } catch (e) {
+      console.warn('[Multer] Warning ensuring destination dir:', e.message);
+    }
     cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
