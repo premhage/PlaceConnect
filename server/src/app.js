@@ -68,8 +68,10 @@ app.get('/api/v1/health', (req, res) => {
     uptimeSeconds: Math.floor(process.uptime()),
     database: {
       status: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
-      host: mongoose.connection.host,
-      name: mongoose.connection.name,
+      readyState: mongoose.connection.readyState,
+      host: mongoose.connection.host || null,
+      name: mongoose.connection.name || null,
+      hasMongoUri: Boolean(process.env.MONGODB_URI),
     },
     version: '1.0.0',
   });
