@@ -6,12 +6,14 @@
       "framework": "vite"
     },
     "server": {
-      "root": "server/"
+      "root": "server/",
+      "framework": "express",
+      "entrypoint": "index.js"
     }
   },
   "rewrites": [
     {
-      "source": "/api/:path*",
+      "source": "/api/(.*)",
       "destination": { "service": "server" }
     },
     {
