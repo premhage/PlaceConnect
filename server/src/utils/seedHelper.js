@@ -8,8 +8,11 @@ import { Notification } from '../models/Notification.js';
 import { PlacementDrive } from '../models/PlacementDrive.js';
 
 export const seedInitialData = async (forceClear = false) => {
-  const userCount = await User.countDocuments();
-  if (userCount > 0 && !forceClear) {
+  const [userCount, jobCount] = await Promise.all([
+    User.countDocuments(),
+    Job.countDocuments(),
+  ]);
+  if (userCount > 0 && jobCount > 0 && !forceClear) {
     return; // Already has data
   }
 

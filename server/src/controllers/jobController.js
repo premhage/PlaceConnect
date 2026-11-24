@@ -33,7 +33,6 @@ export const getJobs = async (req, res, next) => {
 
     // Branch filter
     if (req.query.branch && req.query.branch !== 'All') {
-      query.$or = query.$or || [];
       query.eligibleBranches = { $in: [req.query.branch, 'All Branches'] };
     }
 

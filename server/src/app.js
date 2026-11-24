@@ -84,6 +84,7 @@ app.use('/api/v1/jobs', jobRoutes);
 app.use('/api/v1/applications', applicationRoutes);
 app.use('/api/v1/interviews', interviewRoutes);
 app.use('/api/v1/companies', companyRoutes);
+app.use('/api/v1/recruiter', companyRoutes);
 app.use('/api/v1/admin', adminRoutes);
 app.use('/api/v1/notifications', notificationRoutes);
 app.use('/api/v1/drives', driveRoutes);
